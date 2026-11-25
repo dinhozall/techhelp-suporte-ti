@@ -1,40 +1,36 @@
-// 1. Validação do Formulário de Chamado
+// 1. Lógica do Formulário (só roda se estiver na página Abrir Chamado)
 const form = document.getElementById('formChamado');
 const mensagemRetorno = document.getElementById('mensagemRetorno');
+const assuntoEmail = document.getElementById('assuntoEmail');
+const numeroProtocolo = document.getElementById('numeroProtocolo');
 
 if (form) {
-    form.addEventListener('submit', function(evento) {
-        evento.preventDefault(); // Impede a página de recarregar
-
+    form.addEventListener('submit', function () {
         const nome = document.getElementById('nome').value.trim();
-        const setor = document.getElementById('setor').value.trim();
         const urgencia = document.getElementById('urgencia').value;
-        const descricao = document.getElementById('descricao').value.trim();
+        const numeroChamado = `#${Math.floor(1000 + Math.random() * 9000)}`;
 
-        mensagemRetorno.classList.remove('oculto', 'sucesso', 'erro');
+        assuntoEmail.value = `Novo Chamado ${numeroChamado} - Urgência: ${urgencia}`;
+        numeroProtocolo.value = numeroChamado;
 
-        if (!nome || !setor || !urgencia || !descricao) {
-            mensagemRetorno.classList.add('erro');
-            mensagemRetorno.textContent = 'Por favor, preencha todos os campos antes de enviar.';
-            return;
-        }
-
-        // Gera um número de protocolo aleatório
-        const protocolo = Math.floor(1000 + Math.random() * 9000);
-
-        mensagemRetorno.classList.add('sucesso');
-        mensagemRetorno.innerHTML = `Chamado <strong>#${protocolo}</strong> aberto com sucesso para <strong>${nome}</strong> (Urgência: ${urgencia}). Nossa equipe atenderá em breve!`;
-        
-        form.reset(); // Limpa os campos
+        setTimeout(() => {
+            mensagemRetorno.classList.remove('oculto', 'erro');
+            mensagemRetorno.classList.add('sucesso');
+            mensagemRetorno.textContent = `Chamado ${numeroChamado} aberto com sucesso para ${nome} (Urgência: ${urgencia}). Nossa equipe atenderá em breve!`;
+            form.reset();
+        }, 600);
     });
 }
 
-// 2. Interação de Clique no FAQ (Acordeão)
-const perguntas = document.querySelectorAll('.faq-pergunta');
+// 2. Lógica do FAQ (abre e fecha as respostas ao clicar na pergunta)
+const perguntasFaq = document.querySelectorAll('.faq-pergunta');
 
-perguntas.forEach(function(botao) {
-    botao.addEventListener('click', function() {
+perguntasFaq.forEach((botao) => {
+    botao.addEventListener('click', () => {
         const resposta = botao.nextElementSibling;
-        resposta.classList.toggle('oculto');
+        if (resposta) {
+            resposta.classList.toggle('oculto');
+        }
     });
 });
+

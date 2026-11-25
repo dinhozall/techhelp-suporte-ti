@@ -25,20 +25,25 @@
             <h2>Abrir Novo Chamado Técnico</h2>
             <p>Preencha os dados abaixo para que um técnico atenda sua solicitação.</p>
 
-            <form id="formChamado">
+            <form id="formChamado" action="https://api.web3forms.com/submit" method="POST" target="iframeEnvio">
+                <input type="hidden" name="access_key" value="c0d361ac-a10d-40cb-9e27-8e6ee6c14d07">
+                <input type="hidden" name="from_name" value="TechHelp TI">
+                <input type="hidden" name="subject" id="assuntoEmail" value="Novo Chamado TechHelp TI">
+                <input type="hidden" name="Chamado" id="numeroProtocolo" value="">
+
                 <div class="campo">
                     <label for="nome">Seu Nome:</label>
-                    <input type="text" id="nome" placeholder="Ex: João Silva">
+                    <input type="text" id="nome" name="Solicitante" placeholder="Ex: João Silva" required>
                 </div>
 
                 <div class="campo">
                     <label for="setor">Setor / Departamento:</label>
-                    <input type="text" id="setor" placeholder="Ex: Financeiro, RH, Vendas">
+                    <input type="text" id="setor" name="Setor" placeholder="Ex: Financeiro, RH, Vendas" required>
                 </div>
 
                 <div class="campo">
                     <label for="urgencia">Nível de Urgência:</label>
-                    <select id="urgencia">
+                    <select id="urgencia" name="Urgencia" required>
                         <option value="">Selecione...</option>
                         <option value="Baixa">Baixa (Dúvida ou solicitação simples)</option>
                         <option value="Média">Média (Sistema lento, mas consigo trabalhar)</option>
@@ -48,11 +53,14 @@
 
                 <div class="campo">
                     <label for="descricao">Descrição do Problema:</label>
-                    <textarea id="descricao" rows="4" placeholder="Explique o que está acontecendo..."></textarea>
+                    <textarea id="descricao" name="Problema" rows="4" placeholder="Explique o que está acontecendo..." required></textarea>
                 </div>
 
                 <button type="submit" class="btn">Enviar Chamado</button>
             </form>
+
+            <!-- Iframe oculto que recebe a resposta do servidor sem recarregar sua tela -->
+            <iframe name="iframeEnvio" style="display:none;"></iframe>
 
             <!-- Área onde o JS vai mostrar o resultado -->
             <div id="mensagemRetorno" class="mensagem oculto"></div>
